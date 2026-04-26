@@ -2,6 +2,7 @@ const express = require('express');
 const inviteController = require('../controllers/inviteController');
 const authMiddleware = require('../middleware/authMiddleware');
 const authorize = require('../middleware/roleMiddleware');
+const { validate, acceptInviteRules } = require('../middleware/validatorsMiddleware');
 const router = express.Router();
 
 
@@ -11,6 +12,6 @@ router.post('/create', authMiddleware, authorize(['ORGANIZER', 'ADMIN']), invite
 
 // Ruta para aceptar invitación: Cualquiera puede aceptar
 
-router.post('/accept', authMiddleware, inviteController.acceptInvitation);
+router.post('/accept', authMiddleware, acceptInviteRules, validate, inviteController.acceptInvitation);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const createInvitacion = async (req, res) => {
     const organizerId = req.user.id;
 
     try {
-        const token = crypto.randomBytes(4).toString('hex');
+        const token = crypto.randomBytes(16).toString('hex');
 
         await pool.query(
             `INSERT INTO invitations (organizer_id, token) VALUES ($1, $2)`,
@@ -33,6 +33,9 @@ const acceptInvitation = async (req, res) => {
     const client = await pool.connect();
 
     try {
+
+        await client.query('BEGIN');
+
         const inviteResult = await client.query(
             `SELECT * FROM invitations WHERE token = $1 AND status = 'PENDING'`,
             [token]
@@ -60,7 +63,7 @@ const acceptInvitation = async (req, res) => {
         );
 
         await client.query(
-            `UPDATE users SET role = 'COLLABORATOR' WHERE id = $1`,
+            `UPDATE users SET role = 'COLLABORATOR' WHERE id = $1 AND role = 'ORGANIZER'`,
             [collaboratorId]
         );
 
@@ -72,11 +75,14 @@ const acceptInvitation = async (req, res) => {
             jefe_id: organizerId
         });
     } catch (error) {
-        if(error.code === '23505') {
+        await client.query('ROLLBACK');
+        if (error.code === '23505') {
             return res.status(400).json({ error: 'Ya eres colaborador de este usuario' });
         }
         console.error(error);
         res.status(500).json({ error: 'Error al aceptar invitación' });
+    } finally {
+        client.release();
     }
 };
 

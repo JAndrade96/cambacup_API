@@ -24,7 +24,11 @@ const register = async (req, res) => {
         );
 
         const token = jwt.sign(
-            { id: newUser.rows[0].id, role: newUser.rows[0].role },
+            {
+                id: newUser.rows[0].id,
+                role: newUser.rows[0].role,
+                plan: newUser.rows[0].plan
+            },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -49,7 +53,7 @@ const login = async (req, res) => {
     try {
 
         const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        
+
         if (result.rows.length === 0) {
             return res.status(400).json({ error: 'Credenciales inválidas' });
         }
@@ -62,7 +66,11 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user.id, role: user.role },
+            {
+                id: user.id,
+                role: user.role,
+                plan: user.plan
+            },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -84,7 +92,7 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { 
-    register, 
-    login 
+module.exports = {
+    register,
+    login
 };

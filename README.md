@@ -27,10 +27,10 @@ Crea un nuevo usuario. Por defecto, se le asigna el rol ORGANIZER y el plan BASI
   . Body (JSON):
 
     {
-      "email": "juan@cambacup.com",
-      "password": "pass_seguro_123",
-      "full_name": "Juan Andrade",
-      "phone": "70012345" 
+      "email": "jcandrade@gmail.com",
+      "password": "1234",
+      "full_name": "Juan Carlos Andrade",
+      "phone": "76069252" 
     }
 
   . Respuesta Exitosa (201 Created):
@@ -40,7 +40,7 @@ Crea un nuevo usuario. Por defecto, se le asigna el rol ORGANIZER y el plan BASI
       "token": "eyJhbGciOiJIUz...",
       "user": {
         "id": "a1b2-c3d4...",
-        "email": "juan@cambacup.com",
+        "email": "jcandrade@gmail.com",
         "role": "ORGANIZER",
         "plan": "BASIC"
       }
@@ -58,8 +58,8 @@ Genera el token de acceso para un usario existente.
   . Body (JSON)
 
     {
-      "email": "juan@cambacup.com",
-      "password": "pass_seguro_123"
+      "email": "jcandrade@gmail.com",
+      "password": "1234"
     }
 
   . Respuesta Exitosa (200 OK):
