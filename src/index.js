@@ -6,6 +6,7 @@ require('dotenv').config();
 const pool = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const inviteRoutes = require('./routes/inviteRoutes');
+const tournamentRoutes = require('./routes/tournamentRoutes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/invites', inviteRoutes);
+app.use('/api/tournaments', tournamentRoutes);
 
 app.get('/', (req, res) => {
   res.send('API de CambaCup funcionando correctamente');
