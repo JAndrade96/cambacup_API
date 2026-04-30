@@ -9,6 +9,7 @@ const inviteRoutes = require('./routes/inviteRoutes');
 const tournamentRoutes = require('./routes/tournamentRoutes');
 const teamRoutes = require('./routes/teamRoutes');
 const playerRoutes = require('./routes/playerRoutes');
+const matchRoutes = require('./routes/matchRouter');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/api/invites', inviteRoutes);
 app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/tournaments/:tournamentId/teams', teamRoutes);
 app.use('/api/tournaments/:tournamentId/teams/:teamId/players', playerRoutes);
+app.use('/api/tournaments/:tournamentId/matches', matchRoutes);
 
 app.get('/', (req, res) => {
   res.send('API de CambaCup funcionando correctamente');
